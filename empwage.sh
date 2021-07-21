@@ -1,12 +1,14 @@
 #! /bin/bash -x
 #constant
 IS_PRESENT=1
+WAGE_PER_HR=20
 #variable
 empcheck=$((RANDOM%2))
 #selection
 if [ $empcheck -eq $IS_PRESENT ]
 then
-        echo "employee is present"
+        empHrs=8
+        salary=$(( empHrs*WAGE_PER_HR ))
 else
-        echo "employee is absent"
+        salary=0
 fi
