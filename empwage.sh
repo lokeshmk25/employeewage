@@ -11,6 +11,8 @@ MAX_WORK_HR_IN_MONTH=4;
 totalworkingDays=0;
 totalEmpHr=0;
 
+decleare -A dailywage;
+
 function getworkHR(){
         local empcheck=$1
          case $empcheck in
@@ -26,18 +28,18 @@ function getworkHR(){
 
 function getEmpWage() {
 	local $empHr=$1
-	echo (($empHr*EMP_RATE_PER_HR))
+	echo $(($empHr*$EMP_RATE_PER_HR))
 }
 
-while [[ $totalEmpHrs -lt $MAX_HRS_IN_MONTH ] && [ $totalworkingDays -lt $NUM_WORKING_DAYS ]]
+while [[ $totalEmpHrs -lt $MAX_HRS_IN_MONTH  &&  $totalworkingDays -lt $NUM_WORKING_DAYS ]]
 do
         #variable
+	 ((totalWorkingDays++))
         empcheck=$(( RANDOM%3 ))
-        ((totalWorkingDays++))
         empHrs="$( getworkHrs $empcheck )"
         totalEmpHrs=$((totalEmpHrs+$empHrs))
-	dailyWage[$totalWorkingDays]="$( getEmpwage $empHrs )"
+	dailyWage["day" "$totalWorkingDays"]="$( getEmpwage $empHrs )"
 done
-totalsalary=$(( $totalEmpHrs*EMP_RATE_PER_HR ));
+totalsalary=$(($totalEmpHrs*$EMP_RATE_PER_HR));
 echo ${dailyWage[@]}
-
+echo ${!dailyWage[@]}
